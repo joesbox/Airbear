@@ -6,14 +6,15 @@
 // **************** staticJS_updates() ****************
 const evtSource = new EventSource('/events');
 
-evtSource.addEventListener('debug', function(e) {
-  console.log('[Debug] ' + e.data);
- }, false);
-
 function getElementByID(id)
 {
   return document.getElementById(id)
 }
+
+evtSource.addEventListener('debug', function(e) {
+  var debugTextArea = getElementByID('debug_text');
+  debugTextArea.value += e.data + '\n';
+ }, false);
 
 function semverCompare(a, b) 
 {
@@ -44,13 +45,13 @@ async function getLatestGithubRelease(currentVersion)
       {
         const newData_url = 'http://speeduino.com/fw/AirBear/' + latestVersion + '/' + getfileName(asset)
         getElementByID('newData_url').value = newData_url
-        console.log("Data file: " + newData_url)
+        console.log('Data file: ' + newData_url)
       }
       else
       {
         const newFW_url = 'http://speeduino.com/fw/AirBear/' + latestVersion + '/' + getfileName(asset)
         getElementByID('newFW_url').value = newFW_url
-        console.log("FW file: " + newFW_url)
+        console.log('FW file: ' + newFW_url)
       }
     }
   }

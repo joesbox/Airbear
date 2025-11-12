@@ -28,6 +28,8 @@ String webConfigRequest(AsyncWebServerRequest *request)
   response += "<label for=\"tab-2\">Wifi</label>";
   response += "<input id=\"tab-3\" type=\"radio\" name=\"tabs\" class=\"tabs\">";
   response += "<label for=\"tab-3\">Update</label>";
+  response += "<input id=\"tab-4\" type=\"radio\" name=\"tabs\" class=\"tabs\">";
+  response += "<label for=\"tab-4\">Debug</label>";
   
   response += "<div class=\"content\">";
   //------------------------------------ Config ------------------------------------
@@ -93,7 +95,7 @@ String webConfigRequest(AsyncWebServerRequest *request)
   response += "</p></div>";
   //------------------------------------ Debug ------------------------------------
   response += "<div id=\"content-4\">";
-  response += "<h2>Debug</h2><p>";
+  response += "<h2>Debug Options</h2><p>";
   response += "<form action=\"" + String(UPDATE_REMOTE_URL) + "\" method=\"post\">";
   response += "<select name=\"debug_level\" />";
   response += "<option value=\"0\" " + (config.getUChar("debug_level") == LOG_LEVEL_OFF ? String("selected") : String("")) + ">Off</option>";
@@ -101,9 +103,12 @@ String webConfigRequest(AsyncWebServerRequest *request)
   response += "<option value=\"2\" " + (config.getUChar("debug_level") == LOG_LEVEL_WARN ? String("selected") : String("")) + ">Warn</option>";
   response += "<option value=\"3\" " + (config.getUChar("debug_level") == LOG_LEVEL_ERROR ? String("selected") : String("")) + ">Error</option>";
   response += "<option value=\"4\" " + (config.getUChar("debug_level") == LOG_LEVEL_FATAL ? String("selected") : String("")) + ">Fatal</option>";
+  response += "</select><br/>";
   response += "<input type=\"checkbox\" id=\"debug_serial\" "+ (config.getBool("debug_serial", false) ? String("checked") : String("")) + "/>Debug to Serial<br/>";
   response += "<input type=\"checkbox\" id=\"debug_web\" "+ (config.getBool("debug_web", false) ? String("checked") : String("")) + "/>Debug to Web Dash<br/>";
-  response += "</select><br/>";
+  response += "<input type=\"submit\" value=\"Save\"/></p>";
+  response += "<h2>Debug Output</h2><p>";
+  response += "<textarea id=\"debug_text\" rows=\"10\" cols=\"50\" readonly></textarea>";
   response += "</form>";
   response += "</p></div>";
 

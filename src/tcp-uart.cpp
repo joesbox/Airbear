@@ -24,7 +24,6 @@ void handleData(void *arg, AsyncClient *client, void *data, size_t len)
   debugMsg(String("Command received from client: ") + query, LOG_LEVEL_INFO);
   //Wait for response from ECU
   uint32_t startTime = millis();
-  Serial.printf("Start wait: %d \n", startTime);
   while( (Serial_ECU.available() < 1) && ((millis() - startTime) < ECU_SERIAL_TIMEOUT) ) { }
   //Check for timeout
   if(Serial_ECU.available() == 0) 
@@ -33,10 +32,7 @@ void handleData(void *arg, AsyncClient *client, void *data, size_t len)
     return; 
   }
 
-  Serial.printf("End wait: %d \n", millis());
   debugMsg(String("ECU response size: ") + Serial_ECU.available(), LOG_LEVEL_INFO);
-  //Serial.print("Response received from ECU: ");
-  //Serial.println((char)Serial_ECU.peek());
 
   //Read byte and see if it is the 'F' or 'Q' character for the first connection
   if( ((uint8_t *)data)[0] == 'F')

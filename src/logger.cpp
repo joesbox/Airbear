@@ -1,5 +1,6 @@
 #include "logger.h"
 #include "config.h"
+#include "sse.h"
 
 void debugMsg(String msg, uint8_t pri)
 {
@@ -9,8 +10,9 @@ void debugMsg(String msg, uint8_t pri)
     {
       Serial.println(msg);
     }
-    if(config.getBool("debugWeb"))
+    if(config.getBool("debugWeb") || true)
     {
+      sendSSEDebugMessage(msg);
       Serial.println(msg);
     }
   }

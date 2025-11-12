@@ -28,6 +28,7 @@ void setup()
   initTimers();
   initBLE();
   initWiFi();
+  initSSE();
 
   delay(500);
   Serial.println("Connection Type: " + String(config.getUChar("connection_type")));
@@ -103,7 +104,6 @@ void setup()
       if (!SPIFFS.begin(true)) {
         Serial.println("An error has occurred while mounting SPIFFS");
       }
-      initSSE();
       initSerialData();
       
       //Init the web server

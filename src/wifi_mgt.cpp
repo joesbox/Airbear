@@ -1,6 +1,7 @@
 #include "wifi_mgt.h"
 #include "globals.h"
 #include "config.h"
+#include "logger.h"
 #include <WiFi.h>
 #include <ESPmDNS.h>
 #include <esp_wifi.h>
@@ -12,6 +13,7 @@
 void initWiFi() 
 {
   WiFi.mode(WIFI_STA);
+  delay(2000);
 
   String ssid = config.getString("ssid", ""); 
   String password = config.getString("wpa-psk", "");
@@ -65,6 +67,8 @@ void startAPMode()
   String ssid = config.getString("ap-ssid", ""); 
   String password = config.getString("ap-psk", "");
 
+
+
   if(ssid != "") { WiFi.softAP(ssid, password); }
   else 
   { 
@@ -73,4 +77,6 @@ void startAPMode()
     config.putString("ap-ssid", "Speeduino Dash");
     config.putString("ap-psk", "");
   } 
+  debugMsg(String("AP mode started with SSID: ") + config.getString("ap-ssid", ""), LOG_LEVEL_INFO);
+  
 }
