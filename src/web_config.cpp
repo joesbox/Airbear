@@ -96,7 +96,7 @@ String webConfigRequest(AsyncWebServerRequest *request)
   //------------------------------------ Debug ------------------------------------
   response += "<div id=\"content-4\">";
   response += "<h2>Debug Options</h2><p>";
-  response += "<form action=\"" + String(UPDATE_REMOTE_URL) + "\" method=\"post\">";
+  response += "<form action=\"" + String(WEB_CONFIG_URL) + "\" method=\"post\">";
   response += "<select name=\"debug_level\" />";
   response += "<option value=\"0\" " + (config.getUChar("debug_level") == LOG_LEVEL_OFF ? String("selected") : String("")) + ">Off</option>";
   response += "<option value=\"1\" " + (config.getUChar("debug_level") == LOG_LEVEL_INFO ? String("selected") : String("")) + ">Info</option>";
@@ -104,16 +104,14 @@ String webConfigRequest(AsyncWebServerRequest *request)
   response += "<option value=\"3\" " + (config.getUChar("debug_level") == LOG_LEVEL_ERROR ? String("selected") : String("")) + ">Error</option>";
   response += "<option value=\"4\" " + (config.getUChar("debug_level") == LOG_LEVEL_FATAL ? String("selected") : String("")) + ">Fatal</option>";
   response += "</select><br/>";
-  response += "<input type=\"checkbox\" id=\"debug_serial\" "+ (config.getBool("debug_serial", false) ? String("checked") : String("")) + "/>Debug to Serial<br/>";
-  response += "<input type=\"checkbox\" id=\"debug_web\" "+ (config.getBool("debug_web", false) ? String("checked") : String("")) + "/>Debug to Web Dash<br/>";
+  response += "<input type=\"checkbox\" name=\"debug_serial\" "+ (config.getBool("debug_serial", false) ? String("checked") : String("")) + "/>Debug to Serial<br/>";
+  response += "<input type=\"checkbox\" name=\"debug_web\" "+ (config.getBool("debug_web", false) ? String("checked") : String("")) + "/>Debug to Web Dash<br/>";
   response += "<input type=\"submit\" value=\"Save\"/></p>";
   response += "<h2>Debug Output</h2><p>";
   response += "<textarea id=\"debug_text\" rows=\"10\" cols=\"50\" readonly></textarea>";
   response += "</form>";
   response += "</p></div>";
-
   response +="</div></div></body>";
-
   return response;
 }
 
@@ -149,6 +147,10 @@ String webConfigPOSTRequest(AsyncWebServerRequest *request)
     char c = request->getParam("debug_level", true)->value()[0];
     config.putUChar("debug_level", atoi(&c) );
   }
+  if (request->hasParam("debug_serial", true)) { config.putBool("debug_serial", true); }
+  else { config.putBool("debug_serial", false); }
+  if (request->hasParam("debug_web", true)) { config.putBool("debug_web", true); }
+  else { config.putBool("debug_web", false); }
   Serial.println(updateMessage);
 
   //Create the updates page

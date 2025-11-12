@@ -10,7 +10,7 @@ void debugMsg(String msg, uint8_t pri)
     {
       Serial.println(msg);
     }
-    if(config.getBool("debugWeb") || true)
+    if(config.getBool("debugWeb"))
     {
       sendSSEDebugMessage(msg);
       Serial.println(msg);
